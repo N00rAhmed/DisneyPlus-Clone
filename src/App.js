@@ -6,6 +6,7 @@ function App() {
   return (
     <div className="App">
       <Router>
+        {/* debugging Switch error which is not being found in react-router-dom */}
         <Switch>
           <Route exact path="/">
             <Login />
