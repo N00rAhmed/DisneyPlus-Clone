@@ -13,7 +13,8 @@ const Header = (props) => {
     };
 
 
-    return <Nav>
+    return (
+    <Nav>
         <Logo>
             <img src='/images/logo.svg' alt='Disney+' />
         </Logo>
@@ -45,8 +46,8 @@ const Header = (props) => {
         </NavMenu>
         <Login onClick={handleAuth}>Login</Login>
     </Nav>
+    );
 };
-
 const Nav = styled.nav`
 position: fixed;
 top: 0;
