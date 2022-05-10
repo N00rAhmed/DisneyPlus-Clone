@@ -1,52 +1,53 @@
-import styled from "styled-components";
-import { auth, provider } from "../firebase";
+import styled from 'styled-components';
+import { auth, provider } from '../firebase';
+
+import { signInWithPopup } from 'firebase/auth';
 
 const Header = (props) => {
+	const handleAuth = () => {
+		signInWithPopup(auth, provider)
+			.then((result) => {
+				console.log(result);
+			})
+			.catch((error) => {
+				alert(error.message);
+			});
+	};
 
-    const handleAuth = () => {
-        auth.signInWithPopup(provider).then((result) => {
-            console.log(result);
-        })
-        .catch((error) =>{
-            alert(error.message);
-        });
-    };
-
-
-    return (
-    <Nav>
-        <Logo>
-            <img src='/images/logo.svg' alt='Disney+' />
-        </Logo>
-        <NavMenu>
-            <a href='/home'>
-                <img src='images/home-icon.svg' alt='HOME' />
-                <span>Home</span>
-            </a>
-            <a>
-                <img src='images/search-icon.svg' alt='search' />
-                <span>Search</span>
-            </a>
-            <a>
-                <img src='images/watchlist-icon.svg' alt='watch' />
-                <span>Watch List</span>
-            </a>
-            <a>
-                <img src='images/original-icon.svg' alt='original' />
-                <span>Originals</span>
-            </a>
-            <a>
-                <img src='images/movie-icon.svg' alt='movies' />
-                <span>Movies</span>
-            </a>
-            <a>
-                <img src='images/series-icon.svg' alt='series' />
-                <span>Series</span>
-            </a>
-        </NavMenu>
-        <Login onClick={handleAuth}>Login</Login>
-    </Nav>
-    );
+	return (
+		<Nav>
+			<Logo>
+				<img src='/images/logo.svg' alt='Disney+' />
+			</Logo>
+			<NavMenu>
+				<a href='/home'>
+					<img src='images/home-icon.svg' alt='HOME' />
+					<span>Home</span>
+				</a>
+				<a>
+					<img src='images/search-icon.svg' alt='search' />
+					<span>Search</span>
+				</a>
+				<a>
+					<img src='images/watchlist-icon.svg' alt='watch' />
+					<span>Watch List</span>
+				</a>
+				<a>
+					<img src='images/original-icon.svg' alt='original' />
+					<span>Originals</span>
+				</a>
+				<a>
+					<img src='images/movie-icon.svg' alt='movies' />
+					<span>Movies</span>
+				</a>
+				<a>
+					<img src='images/series-icon.svg' alt='series' />
+					<span>Series</span>
+				</a>
+			</NavMenu>
+			<Login type='submit' onClick={handleAuth} value='Login' />
+		</Nav>
+	);
 };
 const Nav = styled.nav`
 position: fixed;
@@ -70,7 +71,7 @@ margin-top: 4px;
 max-height: 70px;
 font-size: 0;
 display: inline-block;
-img{
+img {
     display: block;
     width: 100%;
 }
@@ -88,7 +89,7 @@ position: relative;
 margin-right: auto;
 margin-left: 25px;
 
-a{
+a {
     display: flex;
     align-items: center;
     padding: 0 12px;
@@ -141,19 +142,20 @@ a{
 
 `;
 
-const Login = styled.a`
-background-color: rgb(0, 0, 0, 0.6);
-padding: 8px 16px;
-text-transform: uppercase;
-letter-spacing: 1.5px;
-border: 1px solid #f9f9f9;
-border-radius: 4px;
-transition: all .2s ease 0s;
-&:hover{
-    background-color: #f9f9f9;
-    color: #000;
-    border-color: transparent;
-}
+const Login = styled.input`
+	background-color: rgb(0, 0, 0, 0.6);
+	padding: 8px 16px;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+	border: 1px solid #f9f9f9;
+	border-radius: 4px;
+	transition: all 0.2s ease 0s;
+	&:hover {
+		background-color: #f9f9f9;
+		color: #000;
+		border-color: transparent;
+		cursor: pointer;
+	}
 `;
 
 export default Header;
