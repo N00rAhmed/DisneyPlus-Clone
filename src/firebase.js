@@ -45,4 +45,3 @@ const storage = getStorage();
 
 export { auth, provider, storage };
 export default db;
-
