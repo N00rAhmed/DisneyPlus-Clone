@@ -1,17 +1,39 @@
 import styled from 'styled-components';
-import { auth, provider } from '../firebase';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
+import {
+	selectUserName, 
+	selectUserPhoto, 
+	setUserLoginDetails, 
+} from '../features/user/userSlice';
 
 const Header = (props) => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const userName = useSelector(selectUserName);
+	const userPhoto = useSelector(selectUserPhoto);
+
 	const handleAuth = () => {
 		signInWithPopup(auth, provider)
 			.then((result) => {
-				console.log(result);
+				setUser(result.user);
 			})
 			.catch((error) => {
 				alert(error.message);
 			});
+	};
+
+	const setUser = (user) => {
+		dispatch(
+			setUserLoginDetails({
+				name: user.displayName,
+				email: user.email,
+				photo: user.photoURL,
+	})
+	);
 	};
 
 	return (
@@ -19,6 +41,14 @@ const Header = (props) => {
 			<Logo>
 				<img src='/images/logo.svg' alt='Disney+' />
 			</Logo>
+
+			{/* {!userName ? <Login onClick={handleAuth}>Login</Login> : <></>} */}
+			
+			{/* const { handleAuth } = useAuth0(); */}
+			<button onClick={() => handleAuth()}>Log In</button>
+
+			{/* {userName ? <Login onClick={handleAuth}>Login</Login> : <></>} */}
+
 			<NavMenu>
 				<a href='/home'>
 					<img src='images/home-icon.svg' alt='HOME' />
@@ -45,8 +75,10 @@ const Header = (props) => {
 					<span>Series</span>
 				</a>
 			</NavMenu>
-			<Login type='submit' onClick={handleAuth} value='Login' />
+			<UserImg src={userPhoto} alt={userName} />
+		
 		</Nav>
+
 	);
 };
 const Nav = styled.nav`
@@ -131,9 +163,7 @@ const NavMenu = styled.div`
 			}
 		}
 	}
-	// @media (max-width: 768px) {
-	//     display: none;
-	// }
+
 `;
 
 const Login = styled.input`
@@ -151,5 +181,10 @@ const Login = styled.input`
 		cursor: pointer;
 	}
 `;
+
+const UserImg = styled.img`
+height: 100%;
+`;
+
 
 export default Header;
