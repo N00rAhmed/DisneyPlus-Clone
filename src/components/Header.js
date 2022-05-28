@@ -49,14 +49,13 @@ const Header = (props) => {
 			{/* {!userName ? <Login onClick={handleAuth}>Login</Login> : <></>} */}
 
 			{/* const { handleAuth } = useAuth0(); */}
-			//Styling for button is in const Login variable but for some reason not being able to access it
-			//<button onClick={() => handleAuth()}>Log In</button>
 
 			{/* <div className='log'>
 				<log onClick={() => handleAuth()}>Log In</log>
 			</div> */}
 			
 			{/* {userName ? <Login onClick={handleAuth}>Login</Login> : <></>} */}
+			
 			{!userName ? (
 				<log onClick={() => handleAuth()}>Log In</log>
 			) : (
