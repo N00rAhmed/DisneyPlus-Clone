@@ -71,6 +71,7 @@ const Header = (props) => {
 			</div> */}
 			
 			{/* {userName ? <Login onClick={handleAuth}>Login</Login> : <></>} */}
+			
 			{!userName ? (
 				<log onClick={() => handleAuth()}>Log In</log>
 			) : (
