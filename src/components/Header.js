@@ -1,9 +1,15 @@
+import { useEffect } from 'react';
+
+// import { useHistory } from "react-router";
+
+import { useNavigate } from "react-router-dom";
+
 import styled from 'styled-components';
 import '../styles/Logb.css'
 import '../styles/Menu.css'
 import '../styles/Logo.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import {
@@ -12,11 +18,21 @@ import {
 	setUserLoginDetails, 
 } from '../features/user/userSlice';
 
+import { async } from '@firebase/util';
+
 const Header = (props) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const userName = useSelector(selectUserName);
 	const userPhoto = useSelector(selectUserPhoto);
+	// const history = useHistory();
+	function MyButton() {
+		let navigate = useNavigate();
+		function handleClick() {
+		  navigate('/home');
+		};
+		return <button onClick={handleClick}>Submit</button>;
+	  };
 
 	const handleAuth = () => {
 		signInWithPopup(auth, provider)
