@@ -8,10 +8,11 @@ import Trending from './Trending';
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import db from '../firebase';
+import db, {colRef} from '../firebase';
 import { setMovies } from '../features/movie/movieSlice';
 import { selectUserName } from '../features/user/userSlice';
 
+import { doc, onSnapshot } from "firebase/firestore";
 
 const Home = (props) => {
     const dispatch = useDispatch()
@@ -20,38 +21,75 @@ const Home = (props) => {
     let newDisneys = [];
     let originals = [];
     let trending = [];
+    
+    onSnapshot(colRef, (snapshot) => {
+        console.log(snapshot.data())
+                switch(snapshot.data().type){
+                    case 'recommend':
+                        recommends = [...recommends, { id: snapshot.id, ...snapshot.data() }];
+                        break;
 
-    // useEffect(() =>{
-    //     db.collection('movies').onSnapshot((snapshot) => {
-    //         snapshot.docs.map((doc) => {
-    //             switch(doc.data().type){
-    //                 case 'recommend':
-    //                     recommends = [...recommends, { id: doc.id, ...doc.data() }];
-    //                     break;
+                    case 'new':
+                        newDisneys = [...newDisneys, { id: snapshot.id, ...snapshot.data() }];
+                        break;
 
-    //                 case 'new':
-    //                     newDisneys = [...newDisneys, { id: doc.id, ...doc.data() }];
-    //                     break;
+                    case 'original':
+                        originals = [...originals, { id: snapshot.id, ...snapshot.data() }];
+                        break;
 
-    //                 case 'original':
-    //                     originals = [...originals, { id: doc.id, ...doc.data() }];
-    //                     break;
+                    case 'trending':
+                        trending = [...trending, { id: snapshot.id, ...snapshot.data() }];
+                        break;
 
-    //                 case 'trending':
-    //                     trending = [...trending, { id: doc.id, ...doc.data() }];
-    //                     break;
+                }
+            });
+        
 
-    //             }
-    //         });
-    //     });
+        dispatch(setMovies({
+            recommend: recommends,
+            newDisney: newDisneys,
+            original: originals,
+            trending: trending,
+        })
+        );
+      
+
+    useEffect(() =>{
+
+        // db.collection('movies').onSnapshot((snapshot) => {
+        //     snapshot.docs.map((doc) => {
+        //         console.log(doc);
+
+                // switch(doc.data().type){
+                //     case 'recommend':
+                //         recommends = [...recommends, { id: doc.id, ...doc.data() }];
+                //         break;
+
+                //     case 'new':
+                //         newDisneys = [...newDisneys, { id: doc.id, ...doc.data() }];
+                //         break;
+
+                //     case 'original':
+                //         originals = [...originals, { id: doc.id, ...doc.data() }];
+                //         break;
+
+                //     case 'trending':
+                //         trending = [...trending, { id: doc.id, ...doc.data() }];
+                //         break;
+
+                // }
+            // });
+        
 
     //     dispatch(setMovies({
     //         recommend: recommends,
     //         newDisney: newDisneys,
     //         original: originals,
     //         trending: trending,
-    //     }))
-    // }, [userName]);
+    //     })
+    //     );
+    // });
+    }, [userName]);
 
     return(
         <Container>

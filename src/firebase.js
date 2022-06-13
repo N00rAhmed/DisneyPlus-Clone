@@ -24,7 +24,7 @@
 // export default db;
 
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore/lite';
+import { getFirestore, collection } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
 
@@ -43,5 +43,7 @@ const auth = getAuth(firebaseApp);
 const provider = new GoogleAuthProvider();
 const storage = getStorage();
 
-export { auth, provider, storage };
+const colRef = collection(db, 'books')
+
+export { auth, provider, storage, colRef };
 export default db;
